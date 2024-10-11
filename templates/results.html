@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block title %}
+	Search results
+{% endblock %}
+
+{% block body %}
+	<h1>Search results</h1>
+
+	<form action="{{ url_for('search') }}" method="post">
+		<div class="form-group">
+			<button class="btn btn-primary">Return to search page</button>
+		</div>
+	</form>
+	
+	<form action="{{ url_for('logout') }}" method="post">
+		<div class="form-group">
+			<button class="btn btn-primary">Logout</button>
+		</div>
+	</form>
+	
+	Found {{ results|length }} result(s).
+	{% if results|length > 30 %}
+		Below displaying first 30.	
+	{% endif %}
+
+	<ul>
+		{% if results|length > 30 %}
+			{% set results = results[:30] %}
+		{% endif %}
+		
+		{% for result in results %}
+			<a href="{{ url_for('book_info', book_isbn=result[1]) }}">
+				<li><b>ISBN:</b> {{ result[1] }}, <b>Title:</b> {{ result[2] }}, <b>Author:</b> {{ result[3] }}, <b>Year:</b> {{ result[4] }}</li>
+			</a>
+		{% endfor %}
+	</ul>
+
+{% endblock %}
